@@ -1,0 +1,138 @@
+/* Container styling */
+.login-container {
+    display: flex;
+    justify-content: right; 
+    align-items: center; 
+    height: 100vh; 
+    padding-left: 550px;    
+  }
+  
+  /* Form styling */
+  .login-form {
+    background-color: white;
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1); 
+    width: 100%;
+    max-width: 400px;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .title {
+    text-align: center;
+    margin-bottom: 0%;
+    color: #5C0760;
+    font-family: kumar One;
+    font-size: 48px;
+  }
+  .login-title {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #757575;
+    font-family: montserrat;
+  }
+  
+  .login-input {
+    padding: 12px;
+    margin-bottom: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    font-family: montserrat;
+  }
+  
+  .forgot-password {
+    text-align: left;
+    color: #b5b3b3;
+    font-size: 14px;
+    margin-bottom: 20px;
+    cursor: pointer;
+    font-family: montserrat;
+    font-size: medium;
+  }
+  
+  .login-button {
+    background-color: #D917EB;
+    color: white;
+    padding: 12px;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    font-family: montserrat;
+    font-size: large;
+  }
+  
+  .login-button:hover {
+    background-color: #4c1252;
+  }
+  
+  .divider {
+    text-align: center;
+    margin: 20px 0;
+    position: relative;
+    font-size: 14px;
+    color: #666;
+    font-family: montserrat;
+  }
+  
+  .divider::before, 
+  .divider::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    width: 40%;
+    height: 1px;
+    background-color: #ccc;
+  }
+  
+  .divider::before {
+    left: 0;
+  }
+  
+  .divider::after {
+    right: 0;
+  }
+  
+  .social-login-button {
+    background-color: #f5f5f5;
+    padding: 12px;
+    color: #878585;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    font-family: montserrat;
+    font-size: larger;
+    vertical-align: middle;
+  }
+  
+  .social-login-icon {
+    width: 20px;
+    height: 18px;
+    margin-right: 15px; 
+    vertical-align: middle;
+  }
+  
+  .signup-link {
+    text-align: center;
+    font-size: 14px;
+    color: #666;
+    font-family: montserrat;
+    font-size: 17px;
+  }
+  
+  .signup-link a {
+    color: #D917EB;
+    text-decoration: none;
+  }
+  
+  .signup-link a:hover {
+    text-decoration: underline;
+    color: #4c1252;
+  }
+  
