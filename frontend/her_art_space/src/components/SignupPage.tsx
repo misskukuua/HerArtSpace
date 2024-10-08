@@ -76,7 +76,7 @@ const SignUpPage: React.FC = () => {
 
         <button className="social-login-button" onClick={handleGoogleSignUp}>
           <img
-            src="/assets/google-icon-logo.svg" // Correct the path to the image
+            src="/assets/google-icon-logo.svg"
             alt="Google logo"
             className="social-login-icon"
           />

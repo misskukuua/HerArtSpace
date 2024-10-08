@@ -51,7 +51,7 @@ const LoginPage: React.FC = () => {
 
         <button className="social-login-button" onClick={handleGoogleLogin}>
         <img
-            src="\public\assets\google-icon-logo.svg"
+            src="/assets/google-icon-logo.svg"
             alt="Google logo"
             className="social-login-icon"
           />
