@@ -1,10 +1,15 @@
+body {
+    background: linear-gradient(to right, #75DAFD, #FEAD94,  #FCFF64, #3193F9); 
+}
+
 .signup-container {
     display: flex;
     justify-content: right;
     align-items: center;
     height: 100vh;
     padding-left: 550px;
-    margin-top: 20px;
+    margin-top: 60px;
+    margin-bottom: 60px;
   }
   
 

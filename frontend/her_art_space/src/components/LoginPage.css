@@ -1,4 +1,7 @@
-/* Container styling */
+body {
+    background: linear-gradient(to right, #75DAFD, #FEAD94,  #FCFF64, #3193F9); 
+}
+
 .login-container {
     display: flex;
     justify-content: right; 
@@ -7,7 +10,7 @@
     padding-left: 550px;    
   }
   
-  /* Form styling */
+ 
   .login-form {
     background-color: white;
     padding: 40px;
