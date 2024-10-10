@@ -1,7 +1,7 @@
-body {
+ .body {
     background: linear-gradient(to right, #75DAFD, #FEAD94,  #FCFF64, #3193F9); 
-}
-
+ }
+ 
 .login-container {
     display: flex;
     justify-content: right; 
