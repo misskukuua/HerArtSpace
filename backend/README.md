@@ -43,7 +43,7 @@ npm install
 
 Create a `.env` file in the root directory of your backend project and include the following MongoDB Atlas URI and port variables:  
 ```bash
-MONGO_ATLAS_URI=yourmongodbatlasuri
+ATLAS_URI=yourmongodbatlasuri
 PORT=5050
 ```
 
@@ -58,13 +58,13 @@ To launch the server, execute the following command:
 npm start
 ```  
 After starting, you should see confirmation messages indicating that the server is running. You can then open the server URL in your browser:  
-[http://localhost:3000/](http://localhost:3000/)
+[http://localhost:5050/](http://localhost:3000/)
 
 ### Accessing Routes
 
 To access various routes, append them to the server URL as follows:  
-- [http://localhost:3000/user-route](http://localhost:3000/user-route)  
-- [http://localhost:3000/user-route/signup](http://localhost:3000/user-route/signup)
+- [http://localhost:5050/user-route](http://localhost:3000/user-route)  
+- [http://localhost:5050/user-route/signup](http://localhost:5050/user-route/signup)
 
 ### Understanding Endpoints
 
@@ -77,7 +77,7 @@ You can use **Postman** to send requests to your backend. Alternatively, for a c
 
 To send a `POST` request to the `/user-route/signup` endpoint, run the following command:  
 ```bash
-curl -X POST http://localhost:3000/user-route/signup \
+curl -X POST http://localhost:5050/user-route/signup \
      -H "Content-Type: application/json" \
      -d '{
          "name": "student",
