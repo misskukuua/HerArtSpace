@@ -2,6 +2,10 @@ body {
     background: linear-gradient(to right, #75DAFD, #FEAD94,  #FCFF64, #3193F9); 
 }
 
+.bg-gradient{
+  background: linear-gradient(to right, #75DAFD, #FEAD94,  #FCFF64, #3193F9); 
+}
+
 .signup-container {
     display: flex;
     justify-content: right;

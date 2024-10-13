@@ -2,7 +2,9 @@ import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
 
-import { router as userRouter } from "./routes/user-route.js";
+// import { router as userRouter } from "./routes/user-route.js";
+import { router as authRouter } from "./routes/auth.js";
+import { router } from "./routes/user-route.js";
 
 const app = express();
 const dbURI = process.env.ATLAS_URI || "";
@@ -13,11 +15,17 @@ app.use(cors());
 app.use(express.json());
 
 //use routers
-app.use("/user-route", userRouter); // Use userRouter for user-related routes
+// app.use("/user-route", userRouter); // Use userRouter for user-related routes
+app.use("/auth", authRouter); //use authRouter for auth-related routes
 
 app.get("/", (req, res) => {
   console.log("This is root endpoint!");
   res.send("Hello world!");
+});
+
+app.get("/signup", (req, res) => {
+  console.log("This is the signup endpoint");
+  res.send("Signup here!");
 });
 
 // connect to mongodb atlas cluster
@@ -48,6 +56,7 @@ process.on("SIGINT", function () {
   });
 });
 
+console.log("This is the express router: ", router);
 // start the Express server
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);

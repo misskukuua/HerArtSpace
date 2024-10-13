@@ -4,6 +4,11 @@ export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
+      fontFamily: {
+        sans: ["Inter", "sans-serif"],
+        montserrat: ["Montserrat", "sans-serif"],
+        kumar: ['"Kumar One"', "cursive", "Montserrat"], // Add Kumar One to the font family
+      },
       borderRadius: {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
@@ -50,6 +55,10 @@ export default {
           4: "hsl(var(--chart-4))",
           5: "hsl(var(--chart-5))",
         },
+        "gradient-1": "#75DAFD",
+        "gradient-2": "#FEAD94",
+        "gradient-3": "#FCFF64",
+        "gradient-4": "#3193F9",
       },
     },
   },
