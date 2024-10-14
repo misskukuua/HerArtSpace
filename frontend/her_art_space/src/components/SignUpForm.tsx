@@ -5,6 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { z } from "zod";
 import axios from "axios";
+import { Link, useRouter } from "@tanstack/react-router";
 
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
@@ -54,6 +55,7 @@ const apiFieldMap = {
 };
 
 export function SignUpForm() {
+  const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
   const [serverError, setServerError] = useState("");
   // const { id, name, formItemId, formDescriptionId, formMessageId, error } = useFormField();
@@ -93,7 +95,11 @@ export function SignUpForm() {
       console.log("User created:", await response.data);
       setApiValidationErrors(""); // Clear any previous server errors
 
-      // return data;
+      //let user know account creation was successful
+      alert("Your account has been created");
+
+      // Redirect to the login page after successful signup
+      router.navigate({ to: "/login" });
     } catch (error: unknown) {
       if (axios.isAxiosError(error) && error.response) {
         console.error("Registration error:", error.response.data);
@@ -108,6 +114,10 @@ export function SignUpForm() {
           // Handle general error
           setServerError(
             error.response.data.message || "An unknown error occurred"
+          );
+          console.log(
+            "this is the server error in the state object: ",
+            serverError
           );
         }
       } else {
@@ -128,26 +138,35 @@ export function SignUpForm() {
   //   [form.trigger]
   // );
 
+  const handleLogin = () => {
+    // send user to login page
+    navigate("/login");
+  };
+
   return (
     <>
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="bg-white px-16 py-4 outline outline-green-400 space-y-8"
+          className="bg-white px-16 py-4 space-y-8"
           noValidate
         >
           {/* {serverError && (
-            <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+            <div
+              className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative"
+              role="alert"
+            >
               <span className="block sm:inline">{serverError}</span>
             </div>
           )} */}
           <div className="flex flex-col items-center justify-center">
-            <p className="font-kumar text-5xl leading-tight text-secondary-foreground font-normal mt-12 mb-3">
+            <p className="font-kumar text-5xl leading-tight text-secondary-foreground font-normal mt-4 mb-3">
               HerArtSpace
             </p>
-            <p className="font-montserrat text-3xl font-bold text-accent-foreground">
-              Login to proceed
-            </p>
+            <span className="flex flex-col items-center font-montserrat text-3xl font-bold text-accent-foreground">
+              <p>Create acccount to</p>
+              <p>proceed</p>
+            </span>
           </div>
           <FormField
             control={form.control}
@@ -156,7 +175,7 @@ export function SignUpForm() {
               <FormItem>
                 {/* <FormLabel>What should we call you</FormLabel> */}
                 <FormControl>
-                  <Input placeholder="Full name" {...field} />
+                  <Input placeholder="Username" {...field} />
                 </FormControl>
                 {/* <FormDescription>
                   This is your public display name.
@@ -164,7 +183,7 @@ export function SignUpForm() {
                 <FormMessage />
                 {/* {form.formState.errors.name && (
                     <FormMessage>{form.formState.errors.name?.message}</FormMessage>
-                  )} */}
+                )} */}
               </FormItem>
             )}
           />
@@ -251,21 +270,23 @@ export function SignUpForm() {
             <Checkbox
               checked={showPassword}
               onChange={() => setShowPassword(!showPassword)} // Toggle showPassword state
-              onCheckedChange={setShowPassword} // Use onCheckedChange to update state
-
+              onCheckedChange={(checked) => setShowPassword(!!checked)} // Update showPassword state based on checkbox
             />
             <label className="ml-2 text-sm">Show Password</label>
           </div>
+          {/* after successful submission of the form the user should be sent to the login page */}
           <Button
-            className="w-full outline bg-primary hover:text-primary hover:bg-secondary"
+            className="w-full bg-primary hover:text-primary hover:bg-secondary"
             type="submit"
           >
             Submit
           </Button>
           <div>
-            <span className="flex justify-center">
+            <span className="flex items-center justify-center">
               Already have an account?
-              {/* <Link>Log in</Link> */}
+              <Link to="/login" className="ml-1 bg-transparent text-primary">
+                Login
+              </Link>
             </span>
           </div>
           <div className="mt-2 mb-2 flex items-center text-xs">
@@ -276,7 +297,7 @@ export function SignUpForm() {
           <div className="flex w-full gap-0">
             <Button
               className="w-full bg-white text-accent-foreground hover:bg-primary hover:text-primary-foreground "
-              type="submit"
+              type="button"
             >
               Sign Up with gmail
             </Button>
