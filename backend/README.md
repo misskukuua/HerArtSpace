@@ -40,11 +40,13 @@ npm install
 ---
 
 ## Setting Up the `.env` File
+Use this site to generate your JWT secret key (https://jwtsecret.com/generate)
 
 Create a `.env` file in the root directory of your backend project and include the following MongoDB Atlas URI and port variables:  
 ```bash
 ATLAS_URI=yourmongodbatlasuri
 PORT=5050
+JWT_SECRET_KEY=yourjwtsecretkey 
 ```
 
 ---
