@@ -27,34 +27,34 @@ const baseSchema = z.object({
   name: z.string().trim().min(2, {
     message: "Username must be at least 2 characters.",
   }),
-  email: z.string().email({ message: "Enter a valid email" }),
+  //   email: z.string().email({ message: "Enter a valid email" }),
   password: z.string().min(1, { message: "Password cannot be empty" }),
-  confirmPassword: z
-    .string()
-    .min(1, { message: "Password confirmation cannot be empty" }),
+//   confirmPassword: z
+//     .string()
+//     .min(1, { message: "Password confirmation cannot be empty" }),
 });
 
-const formSchema = baseSchema.superRefine((data, ctx) => {
-  if (data.password !== data.confirmPassword) {
-    ctx.addIssue({
-      code: z.ZodIssueCode.custom,
-      message: "Passwords do not match",
-      path: ["confirmPassword"], // This will attach the error to the confirmPassword field
-    });
-  }
-});
+// const formSchema = baseSchema.superRefine((data, ctx) => {
+//   if (data.password !== data.confirmPassword) {
+//     ctx.addIssue({
+//       code: z.ZodIssueCode.custom,
+//       message: "Passwords do not match",
+//       path: ["confirmPassword"], // This will attach the error to the confirmPassword field
+//     });
+//   }
+// });
 
-type SignupFormValues = z.infer<typeof formSchema>;
+type LoginFormValues = z.infer<typeof baseSchema>;
 
 const schemaFields = baseSchema.keyof().enum;
 const apiFieldMap = {
   name: schemaFields.name,
-  email: schemaFields.email,
+  //   email: schemaFields.email,
   password: schemaFields.password,
-  confirmPassword: schemaFields.confirmPassword,
+//   confirmPassword: schemaFields.confirmPassword,
 };
 
-export function SignUpForm() {
+export function LoginForm() {
   const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
   const [serverError, setServerError] = useState("");
@@ -62,13 +62,13 @@ export function SignUpForm() {
 
   // Use useForm to get form methods
 
-  const form = useForm<SignupFormValues>({
-    resolver: zodResolver(formSchema), // Integrate Zod for schema validation
+  const form = useForm<LoginFormValues>({
+    resolver: zodResolver(baseSchema), // Integrate Zod for schema validation
     defaultValues: {
       name: "",
-      email: "",
+      //   email: "",
       password: "",
-      confirmPassword: "",
+    //   confirmPassword: "",
     },
     mode: "onChange", // This will trigger validation on change
   });
@@ -78,16 +78,24 @@ export function SignUpForm() {
     form.setError
   );
 
-  const onSubmit: SubmitHandler<SignupFormValues> = async (data) => {
+  const onSubmit: SubmitHandler<LoginFormValues> = async (data) => {
+    alert("Login button works");
     try {
       const response = await axios.post(
-        "http://localhost:5050/auth/signup",
+        "http://localhost:5050/auth/login",
         data
       );
 
       console.log("This is the response from the server: ", response);
 
-      // const token = response.data.token;
+      // Extract the token from the response
+      const { token } = response.data;
+
+      // Store the token in localStorage or any state management library
+      localStorage.setItem("token", token);
+
+      // Optionally, set user data in context or state management if needed
+      // e.g., dispatch(setUser(response.data.user));
 
       console.log("This is the data the user submitted: ", data);
 
@@ -96,10 +104,9 @@ export function SignUpForm() {
       setApiValidationErrors(""); // Clear any previous server errors
 
       //let user know account creation was successful
-      alert("Your account has been created");
+      alert("Login is successful");
 
-      // Redirect to the login page after successful signup
-      router.navigate({ to: "/login" });
+      router.navigate({ to: "/userprofile" });
     } catch (error: unknown) {
       if (axios.isAxiosError(error) && error.response) {
         console.error("Registration error:", error.response.data);
@@ -114,10 +121,6 @@ export function SignUpForm() {
           // Handle general error
           setServerError(
             error.response.data.message || "An unknown error occurred"
-          );
-          console.log(
-            "this is the server error in the state object: ",
-            serverError
           );
         }
       } else {
@@ -138,35 +141,26 @@ export function SignUpForm() {
   //   [form.trigger]
   // );
 
-  const handleLogin = () => {
-    // send user to login page
-    navigate("/login");
-  };
-
   return (
     <>
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="bg-white px-16 py-4 space-y-8"
+          className=" bg-white px-16 outline outline-none space-y-8"
           noValidate
         >
           {/* {serverError && (
-            <div
-              className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative"
-              role="alert"
-            >
+            <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
               <span className="block sm:inline">{serverError}</span>
             </div>
           )} */}
           <div className="flex flex-col items-center justify-center">
-            <p className="font-kumar text-5xl leading-tight text-secondary-foreground font-normal mt-4 mb-3">
+            <p className="font-kumar text-5xl leading-tight text-secondary-foreground font-normal mt-8 mb-3">
               HerArtSpace
             </p>
-            <span className="flex flex-col items-center font-montserrat text-3xl font-bold text-accent-foreground">
-              <p>Create acccount to</p>
-              <p>proceed</p>
-            </span>
+            <div className="flex flex-col items-center font-montserrat text-3xl font-bold text-accent-foreground">
+              <p>Login to proceed</p>
+            </div>
           </div>
           <FormField
             control={form.control}
@@ -183,38 +177,11 @@ export function SignUpForm() {
                 <FormMessage />
                 {/* {form.formState.errors.name && (
                     <FormMessage>{form.formState.errors.name?.message}</FormMessage>
-                )} */}
+                  )} */}
               </FormItem>
             )}
           />
-          <FormField
-            control={form.control}
-            name="email"
-            render={({ field }) => (
-              <FormItem>
-                {/* <FormLabel>What's your email</FormLabel> */}
-                <FormControl>
-                  <Input
-                    placeholder="E-mail"
-                    {...field}
-                    // onBlur={(e) => {
-                    //   field.onBlur(); // This ensures react-hook-form's onBlur functionality is preserved
-                    //   handleBlur(e); // This is our custom onBlur handler
-                    // }}
-                  />
-                </FormControl>
-                {/* <FormDescription>
-                  Enter a valid email address
-                  </FormDescription> */}
-                <FormMessage />
-                {/* {form.formState.errors.email && (
-                  <FormMessage>
-                    {form.formState.errors.email?.message}
-                  </FormMessage>
-                )} */}
-              </FormItem>
-            )}
-          />
+
           <FormField
             control={form.control}
             name="password"
@@ -240,12 +207,12 @@ export function SignUpForm() {
               </FormItem>
             )}
           />
-          <FormField
+          {/* <FormField
             control={form.control}
             name="confirmPassword"
             render={({ field }) => (
               <FormItem>
-                {/* <FormLabel>Create a password</FormLabel> */}
+                <FormLabel>Create a password</FormLabel>
                 <FormControl>
                   <Input
                     type={showPassword ? "text" : "password"}
@@ -253,18 +220,18 @@ export function SignUpForm() {
                     {...field}
                   />
                 </FormControl>
-                {/* <FormDescription>
+                <FormDescription>
                         Use 8 or more character with a mix of letters, numbers and symbols
-                        </FormDescription> */}
+                        </FormDescription>
                 <FormMessage />
-                {/* {form.formState.errors.confirmPassword && (
+                {form.formState.errors.confirmPassword && (
                   <FormMessage>
                     {form.formState.errors.confirmPassword?.message}
                   </FormMessage>
-                )} */}
+                )}
               </FormItem>
             )}
-          />
+          /> */}
           {/* Show Password Checkbox */}
           <div className="flex items-center">
             <Checkbox
@@ -274,32 +241,31 @@ export function SignUpForm() {
             />
             <label className="ml-2 text-sm">Show Password</label>
           </div>
-          {/* after successful submission of the form the user should be sent to the login page */}
           <Button
-            className="w-full bg-primary hover:text-primary hover:bg-secondary"
+            className="w-full outline bg-primary hover:text-primary hover:bg-secondary"
             type="submit"
           >
-            Submit
+            Login
           </Button>
           <div>
-            <span className="flex items-center justify-center">
-              Already have an account?
-              <Link to="/login" className="ml-1 bg-transparent text-primary">
-                Login
+            <span className="flex justify-center">
+              Don't have an account?
+              <Link to="/signup" className="ml-1 bg-transparent text-primary">
+                Sign up
               </Link>
             </span>
           </div>
-          <div className="mt-2 mb-2 flex items-center text-xs">
+          <div className="mt-0 mb-0 p-0 flex items-center text-xs">
             <hr className="flex-grow border-t border-gray-300" />
             <span className="mx-1 text-gray-500">or</span>
             <hr className="flex-grow border-t border-gray-300" />
           </div>
-          <div className="flex w-full gap-0">
+          <div className="flex w-full gap-0 ">
             <Button
-              className="w-full bg-white text-accent-foreground hover:bg-primary hover:text-primary-foreground "
-              type="button"
+              className="w-full bg-white text-accent-foreground hover:bg-primary hover:text-primary-foreground mb-4"
+              type="submit"
             >
-              Sign Up with gmail
+              Login with gmail
             </Button>
           </div>
         </form>
